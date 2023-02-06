@@ -1,7 +1,7 @@
 package configs
 
 // default port
-var PORT = ":8000"
+var PORT = ":"
 
 func BootApp() {
 
