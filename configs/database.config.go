@@ -62,6 +62,6 @@ func RunMigration() {
 		fmt.Println(err)
 		log.Println("Failed to migrate schema")
 	} else {
-		log.Println("schemas migtrated")
+		log.Println("schemas migrated")
 	}
 }
