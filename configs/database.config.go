@@ -11,30 +11,30 @@ import (
 	"gorm.io/gorm"
 )
 
-var db_name = "test"
+var db_name = "railway"
 var db_port = "6483"
 var db_user = "root"
 var db_password = "kVoTkFv55d5Sfk7Dj8Pq"
 var db_host = "containers-us-west-32.railway.app"
 
 func BootDatabase() {
-	if dbPortEnv := os.Getenv("DB_PORT"); dbPortEnv != "" {
+	if dbPortEnv := os.Getenv("MYSQLPORT"); dbPortEnv != "" {
 		db_port = dbPortEnv
 	}
 
-	if dbNameEnv := os.Getenv("DB_NAME"); dbNameEnv != "" {
+	if dbNameEnv := os.Getenv("MYSQLDATABASE"); dbNameEnv != "" {
 		db_name = dbNameEnv
 	}
 
-	if dbUserEnv := os.Getenv("DB_USER"); dbUserEnv != "" {
+	if dbUserEnv := os.Getenv("MYSQLUSER"); dbUserEnv != "" {
 		db_user = dbUserEnv
 	}
 
-	if dbPasswordEnv := os.Getenv("DB_PASSWORD"); dbPasswordEnv != "" {
+	if dbPasswordEnv := os.Getenv("MYSQLPASSWORD"); dbPasswordEnv != "" {
 		db_password = dbPasswordEnv
 	}
 
-	if dbHostEnv := os.Getenv("DB_NHOST"); dbHostEnv != "" {
+	if dbHostEnv := os.Getenv("MYSQLHOST"); dbHostEnv != "" {
 		db_host = dbHostEnv
 	}
 }
