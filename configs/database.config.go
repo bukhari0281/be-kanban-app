@@ -12,19 +12,18 @@ import (
 )
 
 var db_name = "test"
-var db_port = "3306"
+var db_port = "6483"
 var db_user = "root"
-var db_password = ""
-var db_host = "localhost"
+var db_password = "kVoTkFv55d5Sfk7Dj8Pq"
+var db_host = "containers-us-west-32.railway.app"
 
 func BootDatabase() {
+	if dbPortEnv := os.Getenv("DB_PORT"); dbPortEnv != "" {
+		db_port = dbPortEnv
+	}
 
 	if dbNameEnv := os.Getenv("DB_NAME"); dbNameEnv != "" {
 		db_name = dbNameEnv
-	}
-
-	if dbPortEnv := os.Getenv("DB_PORT"); dbPortEnv != "" {
-		db_port = dbPortEnv
 	}
 
 	if dbUserEnv := os.Getenv("DB_USER"); dbUserEnv != "" {
