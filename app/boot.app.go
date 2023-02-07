@@ -18,7 +18,7 @@ func BootApp() {
 	}
 
 	if portEnv := os.Getenv("SERVICE_PORT"); portEnv == " " {
-		configs.PORT = portEnv
+		portEnv = "8080"
 	}
 
 	configs.BootDatabase()
