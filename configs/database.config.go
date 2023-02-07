@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -37,6 +38,31 @@ func BootDatabase() {
 	if dbHostEnv := os.Getenv("MYSQLHOST"); dbHostEnv != "" {
 		db_host = dbHostEnv
 	}
+}
+
+func LoadConfig() models.Config {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error Loading .env file")
+	}
+	serverPort := os.Getenv("SERVICE_PORT")
+	dbHost := os.Getenv("MYSQLHOST")
+	dbPort := os.Getenv("MYSQLPORT")
+	dbUsername := os.Getenv("MYSQLUSER")
+	dbPassword := os.Getenv("MYSQLPASSWORD")
+	dbName := os.Getenv("MYSQLDATABASE")
+
+	config := models.Config{
+		ServerPort: serverPort,
+		Database: models.Database{
+			Host:     dbHost,
+			Port:     dbPort,
+			Username: dbUsername,
+			Password: dbPassword,
+			Name:     dbName,
+		},
+	}
+	return config
 }
 
 func ConnectDatabase() {

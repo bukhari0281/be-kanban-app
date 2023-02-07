@@ -17,7 +17,7 @@ func BootApp() {
 		log.Fatal("Error loading .env file")
 	}
 
-	if portEnv := os.Getenv("PORT"); portEnv != "SERVICE_PORT" {
+	if portEnv := os.Getenv("SERVICE_PORT"); portEnv != " " {
 		configs.PORT = portEnv
 	}
 
