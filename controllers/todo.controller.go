@@ -33,6 +33,7 @@ func CreateTodo(c *fiber.Ctx) error {
 
 	todo := models.Todo{}
 	todo.Name = todoReq.Name
+	// todo.Category = todoReq.Category
 	todo.IsComplete = todoReq.IsComplete
 	if todoReq.Note != "" {
 		todo.Note = &todoReq.Note
