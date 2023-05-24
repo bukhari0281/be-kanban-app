@@ -56,7 +56,7 @@ func GetTodoById(c *fiber.Ctx) error {
 	todoId := c.Params("id")
 	todo := models.Todo{}
 
-	if err := database.DB.First(&todo, "id = ?", todoId).Error; err != nil {
+	if err := database.DB.Preload("Category").First(&todo, "id = ?", todoId).Error; err != nil {
 		return c.Status(404).JSON(fiber.Map{
 			"message": "todo not found",
 		})
@@ -71,7 +71,7 @@ func GetTodoById(c *fiber.Ctx) error {
 func GetAllTodo(c *fiber.Ctx) error {
 	todos := []models.Todo{}
 
-	if err := database.DB.Find(&todos).Error; err != nil {
+	if err := database.DB.Preload("Category").Find(&todos).Error; err != nil {
 		return c.Status(500).JSON(fiber.Map{
 			"message": "internal server error",
 		})

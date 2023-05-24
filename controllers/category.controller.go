@@ -30,7 +30,7 @@ func CreateCategory(c *fiber.Ctx) error {
 	}
 
 	return c.Status(201).JSON(fiber.Map{
-		"message": "catgory created",
+		"message": "category created",
 		"data":    category,
 	})
 }
@@ -39,7 +39,7 @@ func GetCategoryById(c *fiber.Ctx) error {
 	categoryId := c.Params("id")
 	category := models.Category{}
 
-	if err := database.DB.First(&category, "id = ?", categoryId).Error; err != nil {
+	if err := database.DB.Preload("Todo").First(&category, "id = ?", categoryId).Error; err != nil {
 		return c.Status(400).JSON(fiber.Map{
 			"message": "category not found",
 		})
@@ -52,5 +52,15 @@ func GetCategoryById(c *fiber.Ctx) error {
 }
 
 func GetAllCategory(c *fiber.Ctx) error {
-	return nil
+	categories := []models.Category{}
+
+	if err := database.DB.Preload("Todo").Find(&categories).Error; err != nil {
+		return c.Status(500).JSON(fiber.Map{
+			"message": "internal server error",
+		})
+	}
+	return c.JSON(fiber.Map{
+		"message": "data transmited",
+		"data":    categories,
+	})
 }
