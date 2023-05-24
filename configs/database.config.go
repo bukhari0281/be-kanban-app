@@ -19,23 +19,23 @@ var db_password = ""
 var db_host = "localhost"
 
 func BootDatabase() {
-	if dbPortEnv := os.Getenv("MYSQLPORT"); dbPortEnv != "" {
+	if dbPortEnv := os.Getenv("DB_PORT"); dbPortEnv != "" {
 		db_port = dbPortEnv
 	}
 
-	if dbNameEnv := os.Getenv("MYSQLDATABASE"); dbNameEnv != "" {
+	if dbNameEnv := os.Getenv("DB_NAME"); dbNameEnv != "" {
 		db_name = dbNameEnv
 	}
 
-	if dbUserEnv := os.Getenv("MYSQLUSER"); dbUserEnv != "" {
+	if dbUserEnv := os.Getenv("DB_USER"); dbUserEnv != "" {
 		db_user = dbUserEnv
 	}
 
-	if dbPasswordEnv := os.Getenv("MYSQLPASSWORD"); dbPasswordEnv != "" {
+	if dbPasswordEnv := os.Getenv("DB_PASSWORD"); dbPasswordEnv != "" {
 		db_password = dbPasswordEnv
 	}
 
-	if dbHostEnv := os.Getenv("MYSQLHOST"); dbHostEnv != "" {
+	if dbHostEnv := os.Getenv("DB_HOST"); dbHostEnv != "" {
 		db_host = dbHostEnv
 	}
 }
@@ -45,7 +45,7 @@ func LoadConfig() models.Config {
 	if err != nil {
 		log.Fatal("Error Loading .env file")
 	}
-	serverPort := os.Getenv("PORT")
+	// serverPort := os.Getenv("PORT")
 	dbHost := os.Getenv("DB_HOST")
 	dbPort := os.Getenv("DB_PORT")
 	dbUsername := os.Getenv("DB_USER")
@@ -53,7 +53,7 @@ func LoadConfig() models.Config {
 	dbName := os.Getenv("DB_NAME")
 
 	config := models.Config{
-		ServerPort: serverPort,
+		// ServerPort: serverPort,
 		Database: models.Database{
 			Host:     dbHost,
 			Port:     dbPort,

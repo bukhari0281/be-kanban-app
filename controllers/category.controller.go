@@ -50,3 +50,7 @@ func GetCategoryById(c *fiber.Ctx) error {
 		"data":    category,
 	})
 }
+
+func GetAllCategory(c *fiber.Ctx) error {
+	return nil
+}

@@ -20,4 +20,10 @@ func v1Route(app *fiber.App) {
 	todo.Patch("/:id", controllers.UpdateTodoById)
 
 	todo.Delete("/:id", controllers.DeleteTodoById)
+
+	category := v1.Group("category")
+
+	category.Post("/", controllers.CreateCategory)
+
+	category.Get("/", controllers.GetAllCategory)
 }
