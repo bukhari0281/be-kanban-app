@@ -4,10 +4,12 @@ import (
 	"kanban-app/database"
 	"kanban-app/models/entity"
 	"kanban-app/models/request"
+	"kanban-app/utils"
 	"log"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
+	// "github.com/gofiber/fiber/v2/utils"
 )
 
 func CreateUser(c *fiber.Ctx) error {
@@ -36,6 +38,16 @@ func CreateUser(c *fiber.Ctx) error {
 		Email:    user.Email,
 		Password: user.Password,
 	}
+
+	hashedPassword, err := utils.HashingPassword(user.Password)
+	if err != nil {
+		log.Println(err)
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "internal server error",
+		})
+	}
+
+	newUser.Password = hashedPassword
 
 	if errDb := database.DB.Create(&newUser).Error; errDb != nil {
 		log.Println("todo.controller.go => CreateTodo :: ", errDb)
