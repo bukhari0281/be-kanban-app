@@ -2,6 +2,8 @@ module kanban-app
 
 go 1.19
 
+require github.com/gofiber/fiber v1.14.6
+
 require (
 	github.com/andybalholm/brotli v1.0.4 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
@@ -9,6 +11,8 @@ require (
 	github.com/go-playground/validator/v10 v10.11.2 // indirect
 	github.com/go-sql-driver/mysql v1.7.0 // indirect
 	github.com/gofiber/fiber/v2 v2.41.0 // indirect
+	github.com/gofiber/utils v0.0.10 // indirect
+	github.com/gorilla/schema v1.1.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/joho/godotenv v1.4.0 // indirect

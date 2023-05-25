@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"kanban-app/database"
 	"kanban-app/models"
+	"kanban-app/models/entity"
 	"log"
 	"os"
 
@@ -81,8 +82,9 @@ func ConnectDatabase() {
 
 func RunMigration() {
 	err := database.DB.AutoMigrate(
-		models.Todo{},
-		models.Category{},
+		entity.Todo{},
+		entity.Category{},
+		entity.User{},
 	)
 
 	if err != nil {

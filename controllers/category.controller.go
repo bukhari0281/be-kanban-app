@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"kanban-app/database"
-	"kanban-app/models"
-	"kanban-app/request"
+	"kanban-app/models/entity"
+	"kanban-app/models/request"
 	"log"
 
 	"github.com/gofiber/fiber/v2"
@@ -19,7 +19,7 @@ func CreateCategory(c *fiber.Ctx) error {
 		})
 	}
 
-	category := models.Category{}
+	category := entity.Category{}
 	category.Category = categoryReq.Category
 
 	if errDb := database.DB.Create(&category).Error; errDb != nil {
@@ -37,7 +37,7 @@ func CreateCategory(c *fiber.Ctx) error {
 
 func GetCategoryById(c *fiber.Ctx) error {
 	categoryId := c.Params("id")
-	category := models.Category{}
+	category := entity.Category{}
 
 	if err := database.DB.Preload("Todo").First(&category, "id = ?", categoryId).Error; err != nil {
 		return c.Status(400).JSON(fiber.Map{
@@ -52,7 +52,7 @@ func GetCategoryById(c *fiber.Ctx) error {
 }
 
 func GetAllCategory(c *fiber.Ctx) error {
-	categories := []models.Category{}
+	categories := []entity.Category{}
 
 	if err := database.DB.Preload("Todo").Find(&categories).Error; err != nil {
 		return c.Status(500).JSON(fiber.Map{
