@@ -19,7 +19,7 @@ func BootApp() {
 
 	var portEnv string
 
-	if portEnv = os.Getenv("PORT"); portEnv == "" {
+	if portEnv = os.Getenv("PORT"); portEnv == "8000" {
 		portEnv = "8080"
 	}
 
@@ -43,9 +43,9 @@ func BootApp() {
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.JSON(fiber.Map{
-			"hello": "world",
+			"hello": "Dunia",
 		})
 	})
 
-	app.Listen(":" + portEnv)
+	app.Listen(":8000")
 }

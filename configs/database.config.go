@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"kanban-app/database"
 	"kanban-app/models"
+	"kanban-app/models/entity"
 	"log"
 	"os"
 
@@ -12,30 +13,30 @@ import (
 	"gorm.io/gorm"
 )
 
-var db_name = "railway"
-var db_port = "6483"
+var db_name = "test"
+var db_port = "3306"
 var db_user = "root"
-var db_password = "kVoTkFv55d5Sfk7Dj8Pq"
-var db_host = "containers-us-west-32.railway.app"
+var db_password = ""
+var db_host = "localhost"
 
 func BootDatabase() {
-	if dbPortEnv := os.Getenv("MYSQLPORT"); dbPortEnv != "" {
+	if dbPortEnv := os.Getenv("DB_PORT"); dbPortEnv != "" {
 		db_port = dbPortEnv
 	}
 
-	if dbNameEnv := os.Getenv("MYSQLDATABASE"); dbNameEnv != "" {
+	if dbNameEnv := os.Getenv("DB_NAME"); dbNameEnv != "" {
 		db_name = dbNameEnv
 	}
 
-	if dbUserEnv := os.Getenv("MYSQLUSER"); dbUserEnv != "" {
+	if dbUserEnv := os.Getenv("DB_USER"); dbUserEnv != "" {
 		db_user = dbUserEnv
 	}
 
-	if dbPasswordEnv := os.Getenv("MYSQLPASSWORD"); dbPasswordEnv != "" {
+	if dbPasswordEnv := os.Getenv("DB_PASSWORD"); dbPasswordEnv != "" {
 		db_password = dbPasswordEnv
 	}
 
-	if dbHostEnv := os.Getenv("MYSQLHOST"); dbHostEnv != "" {
+	if dbHostEnv := os.Getenv("DB_HOST"); dbHostEnv != "" {
 		db_host = dbHostEnv
 	}
 }
@@ -45,15 +46,15 @@ func LoadConfig() models.Config {
 	if err != nil {
 		log.Fatal("Error Loading .env file")
 	}
-	serverPort := os.Getenv("SERVICE_PORT")
-	dbHost := os.Getenv("MYSQLHOST")
-	dbPort := os.Getenv("MYSQLPORT")
-	dbUsername := os.Getenv("MYSQLUSER")
-	dbPassword := os.Getenv("MYSQLPASSWORD")
-	dbName := os.Getenv("MYSQLDATABASE")
+	// serverPort := os.Getenv("PORT")
+	dbHost := os.Getenv("DB_HOST")
+	dbPort := os.Getenv("DB_PORT")
+	dbUsername := os.Getenv("DB_USER")
+	dbPassword := os.Getenv("DB_PASSWORD")
+	dbName := os.Getenv("DB_NAME")
 
 	config := models.Config{
-		ServerPort: serverPort,
+		// ServerPort: serverPort,
 		Database: models.Database{
 			Host:     dbHost,
 			Port:     dbPort,
@@ -81,7 +82,9 @@ func ConnectDatabase() {
 
 func RunMigration() {
 	err := database.DB.AutoMigrate(
-		models.Todo{},
+		entity.Todo{},
+		entity.Category{},
+		entity.User{},
 	)
 
 	if err != nil {

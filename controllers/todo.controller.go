@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"kanban-app/database"
-	"kanban-app/models"
-	"kanban-app/request"
+	"kanban-app/models/entity"
+	"kanban-app/models/request"
 	"log"
 
 	"github.com/go-playground/validator/v10"
@@ -31,7 +31,7 @@ func CreateTodo(c *fiber.Ctx) error {
 		})
 	}
 
-	todo := models.Todo{}
+	todo := entity.Todo{}
 	todo.Name = todoReq.Name
 	todo.IsComplete = todoReq.IsComplete
 	if todoReq.Note != "" {
@@ -53,9 +53,9 @@ func CreateTodo(c *fiber.Ctx) error {
 
 func GetTodoById(c *fiber.Ctx) error {
 	todoId := c.Params("id")
-	todo := models.Todo{}
+	todo := entity.Todo{}
 
-	if err := database.DB.First(&todo, "id = ?", todoId).Error; err != nil {
+	if err := database.DB.Preload("Category").First(&todo, "id = ?", todoId).Error; err != nil {
 		return c.Status(404).JSON(fiber.Map{
 			"message": "todo not found",
 		})
@@ -68,9 +68,9 @@ func GetTodoById(c *fiber.Ctx) error {
 }
 
 func GetAllTodo(c *fiber.Ctx) error {
-	todos := []models.Todo{}
+	todos := []entity.Todo{}
 
-	if err := database.DB.Find(&todos).Error; err != nil {
+	if err := database.DB.Preload("Category").Find(&todos).Error; err != nil {
 		return c.Status(500).JSON(fiber.Map{
 			"message": "internal server error",
 		})
@@ -104,7 +104,7 @@ func UpdateTodoById(c *fiber.Ctx) error {
 	}
 
 	todoId := c.Params("id")
-	todo := models.Todo{}
+	todo := entity.Todo{}
 
 	if err := database.DB.First(&todo, "id = ?", todoId).Error; err != nil {
 		return c.Status(404).JSON(fiber.Map{
@@ -131,7 +131,7 @@ func UpdateTodoById(c *fiber.Ctx) error {
 func DeleteTodoById(c *fiber.Ctx) error {
 
 	todoId := c.Params("id")
-	todo := models.Todo{}
+	todo := entity.Todo{}
 
 	if err := database.DB.First(&todo, "id = ?", todoId).Error; err != nil {
 		return c.Status(404).JSON(fiber.Map{
