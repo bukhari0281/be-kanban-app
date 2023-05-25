@@ -11,10 +11,10 @@ import (
 )
 
 func CreateUser(c *fiber.Ctx) error {
-	registerReq := request.UserRegisterRequest{}
+	user := request.UserRegisterRequest{}
 
 	// PARSE REQUEST BODY
-	if errParse := c.BodyParser(&registerReq); errParse != nil {
+	if errParse := c.BodyParser(&user); errParse != nil {
 		return c.Status(400).JSON(fiber.Map{
 			"message": "fail to parsing data",
 			"error":   errParse.Error(),
@@ -24,19 +24,20 @@ func CreateUser(c *fiber.Ctx) error {
 	// VALIDATION REQUEST DATA
 
 	validate := validator.New()
-	if errValidate := validate.Struct(&registerReq); errValidate != nil {
+	if errValidate := validate.Struct(&user); errValidate != nil {
 		return c.Status(400).JSON(fiber.Map{
 			"message": "some data is not valid",
 			"error":   errValidate.Error(),
 		})
 	}
 
-	register := entity.User{}
-	register.Name = registerReq.Name
-	register.Email = registerReq.Email
-	register.Password = registerReq.Password
+	newUser := entity.User{
+		Name:     user.Name,
+		Email:    user.Email,
+		Password: user.Password,
+	}
 
-	if errDb := database.DB.Create(&register).Error; errDb != nil {
+	if errDb := database.DB.Create(&newUser).Error; errDb != nil {
 		log.Println("todo.controller.go => CreateTodo :: ", errDb)
 		return c.Status(500).JSON(fiber.Map{
 			"message": "internal server error",
@@ -45,6 +46,6 @@ func CreateUser(c *fiber.Ctx) error {
 
 	return c.Status(201).JSON(fiber.Map{
 		"message": "user registered successfully",
-		"data":    register,
+		"data":    newUser,
 	})
 }
